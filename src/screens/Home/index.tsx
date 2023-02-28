@@ -3,7 +3,6 @@ import {
   View,
   TextInput,
   TouchableOpacity,
-  ScrollView,
   FlatList,
 } from "react-native";
 import { styles } from "./styles";
@@ -21,22 +20,28 @@ type Company = {
 
 export function Home() {
   const [companies, setCompanies] = useState<Company[]>([]);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+
   const getCompanies = async () => {
     try {
       const { data } = await client.get("/companies");
-      setCompanies(data.filter(filterCompanies));
+      const filteredCompanies = data.filter(filterCompanies);
+      setCompanies(filteredCompanies);
     } catch (error) {
       console.log(error);
     }
   };
 
+  const filterCompanies = (company: Company) => {
+    const name = company.nome.toLowerCase();
+    const cnpj = company.cnpj.toLowerCase();
+    const searchTermLower = searchTerm.toLowerCase();
+    return name.includes(searchTermLower) || cnpj.includes(searchTermLower);
+  };
+
   useEffect(() => {
     getCompanies();
   }, []);
-
-  const filterCompanies = (company: Company) => {
-    return true;
-  }
 
   return (
     <View style={styles.container}>
@@ -51,7 +56,12 @@ export function Home() {
       </View>
 
       <View style={styles.searchSection}>
-        <TextInput style={styles.input} />
+        <TextInput
+          style={styles.input}
+          onChangeText={setSearchTerm}
+          value={searchTerm}
+          placeholder="Pesquisar empresa ou CNPJ"
+        />
 
         <Icon
           style={styles.searchIcon}
@@ -68,9 +78,14 @@ export function Home() {
           <View style={styles.cardCompanies}>
             <Text style={styles.textCompanies}>{item.nome}</Text>
             <Text style={styles.textCnpj}>{item.cnpj}</Text>
-            <Text style={styles.textValorSolicitado}>
-              {item.valor_solicitado}
-            </Text>
+            <View style={styles.buttonNextSection}>
+              <Text style={styles.textValorSolicitado}>
+                {item.valor_solicitado}
+              </Text>
+              <TouchableOpacity style={styles.buttonNext}>
+                <Text style={styles.buttonText}>{">"}</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         )}
       />

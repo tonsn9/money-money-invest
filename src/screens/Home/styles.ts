@@ -97,4 +97,21 @@ export const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "500",
   },
+
+  buttonNextSection: {
+    paddingTop: 10,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+
+  buttonNext: {
+    left: 220,
+    width: 30,
+    height: 30,
+    color: "#ffffff",
+    backgroundColor: "#FF6600",
+    borderRadius: 20,
+    alignItems: "center",
+    justifyContent: "center",
+  },
 });
