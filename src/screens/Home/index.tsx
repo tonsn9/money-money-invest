@@ -9,7 +9,7 @@ import { styles } from "./styles";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { client } from "../../lib/axios-client";
 import { useEffect, useState } from "react";
-import Feather from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
 
 type Company = {
   id: string;
@@ -33,20 +33,26 @@ export function Home() {
   };
 
   const filterCompanies = (company: Company) => {
-    const name = company.nome.toLowerCase();
+    const nome = company.nome.toLowerCase();
     const cnpj = company.cnpj.toLowerCase();
-    const searchTermLower = searchTerm.toLowerCase();
-    return name.includes(searchTermLower) || cnpj.includes(searchTermLower);
+
+    return (
+      nome.indexOf(searchTerm.toLowerCase()) !== -1 ||
+      cnpj.indexOf(searchTerm.toLowerCase()) !== -1
+    );
   };
 
   useEffect(() => {
     getCompanies();
-  }, []);
+  }, [searchTerm]);
 
   return (
     <View style={styles.container}>
       <Text style={styles.eventWelcome}>Seja bem-vindo</Text>
       <Text style={styles.eventName}>Alex Sanchez</Text>
+      <View style={styles.eventBells}>
+        <Feather style={styles.bellIcon} name="bell" size={20} />
+      </View>
 
       <View style={styles.buttonSection}>
         <Text style={styles.eventTitle}>Oportunidades</Text>

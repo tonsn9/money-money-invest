@@ -7,11 +7,20 @@ export const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
   },
 
+  eventBells: {
+    flexDirection: "column",
+    alignItems: "flex-end",
+  },
+
   eventWelcome: {
     color: "#4B4B4B",
     marginTop: 36,
     fontSize: 18,
     fontWeight: "500",
+  },
+
+  bellIcon: {
+    color: "#d9d9d9",
   },
 
   eventName: {
@@ -38,6 +47,7 @@ export const styles = StyleSheet.create({
   },
 
   button: {
+    marginTop: 3,
     left: 10,
     width: 25,
     height: 25,
